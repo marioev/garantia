@@ -26,7 +26,6 @@
 						<td><?php echo $r['producto_id']; ?></td>
 						<td><?php echo $r['usuario_id']; ?></td>
 						<td><?php echo $r['registro_serie']; ?></td>
-						<td><?php echo $r['cliente_aniversario']; ?></td>
 						<td><?php echo $r['registro_fecha']; ?></td>
 						<td><?php echo $r['registro_hora']; ?></td>
 						<td><?php echo $r['registro_vigencia']; ?></td>

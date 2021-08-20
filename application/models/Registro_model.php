@@ -53,4 +53,14 @@ class Registro_model extends CI_Model
     {
         return $this->db->delete('registro',array('registro_id'=>$registro_id));
     }
+
+    function get_detalle_serie($serie){
+        $producto = $this->db->query(
+            "SELECT r.*, p.producto_foto,p.`producto_nombre`
+            from registro as r
+            left join producto as p on r.`producto_id` = p.`producto_id`
+            where r.`registro_serie` = '$serie'
+            ")->result_array();
+        return $producto;
+    }
 }
