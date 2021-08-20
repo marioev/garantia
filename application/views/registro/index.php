@@ -64,6 +64,7 @@
                     <tbody class="buscar" id="tablaresultados"></tbody>
                     <?php /*foreach($registro as $r){ ?>
                     <tr>
+<<<<<<< HEAD
                         <td><?php echo $r['registro_id']; ?></td>
                         <td><?php echo $r['producto_id']; ?></td>
                         <td><?php echo $r['usuario_id']; ?></td>
@@ -73,6 +74,16 @@
                         <td><?php echo $r['registro_hora']; ?></td>
                         <td><?php echo $r['registro_vigencia']; ?></td>
                         <td>
+=======
+						<td><?php echo $r['registro_id']; ?></td>
+						<td><?php echo $r['producto_id']; ?></td>
+						<td><?php echo $r['usuario_id']; ?></td>
+						<td><?php echo $r['registro_serie']; ?></td>
+						<td><?php echo $r['registro_fecha']; ?></td>
+						<td><?php echo $r['registro_hora']; ?></td>
+						<td><?php echo $r['registro_vigencia']; ?></td>
+						<td>
+>>>>>>> master
                             <a href="<?php echo site_url('registro/edit/'.$r['registro_id']); ?>" class="btn btn-info btn-xs"><span class="fa fa-pencil"></span> Edit</a> 
                             <a href="<?php echo site_url('registro/remove/'.$r['registro_id']); ?>" class="btn btn-danger btn-xs"><span class="fa fa-trash"></span> Delete</a>
                         </td>

@@ -1,0 +1,19 @@
+.border-danger {
+    border: rgb(223, 28, 28) 1px solid !important;
+    background-color: #ff010117 !important;
+}
+.oculto{
+    display: none !important;
+}
+
+.color-text {
+    color: #777676;
+}
+
+.garantia-danger{
+    background-color: rgba(252, 14, 14, 0.425) !important;
+}
+
+.garantia-success{
+    background-color: rgba(14, 252, 14, 0.425) !important;
+}
