@@ -14,7 +14,7 @@ class Usuario extends CI_Controller
         $this->load->model('Tipo_usuario_model');
         */
         $this->load->library('form_validation');
-        //$this->load->model('user_model');
+        $this->load->model('user_model');
         if ($this->session->userdata('logged_in')) {
             $this->session_data = $this->session->userdata('logged_in');
         }else {
@@ -377,7 +377,7 @@ class Usuario extends CI_Controller
 
     function set()
     {
-        if($this->acceso(47)){
+        //if($this->acceso(47)){
 
                 $this->form_validation->set_rules('usuario_nombre', 'Nombre', 'trim|required|min_length[3]|max_length[150]');
                 //$this->form_validation->set_rules('usuario_email', 'Email', 'trim|required|valid_email|min_length[5]|max_length[250]|callback_hay_email2');//OJO
@@ -405,11 +405,12 @@ class Usuario extends CI_Controller
                     );*/
                     $data['usuario'] = $this->Usuario_model->get_usuario($usuario_id);
 
-                    $this->load->model('Estado_model');
+                    /*$this->load->model('Estado_model');
                     $data['all_estado'] = $this->Estado_model->get_tipo_estado(1);
 
                     $this->load->model('Tipo_usuario_model');
                     $data['all_tipo_usuario'] = $this->Tipo_usuario_model->get_all_tipo_usuario();
+                    */
                     $data['page_title'] = "Usuario";
                     $data['_view'] = 'usuario/edit';
                     $this->load->view('layouts/main', $data);
@@ -426,8 +427,8 @@ class Usuario extends CI_Controller
                     $config['upload_path'] = './resources/images/usuarios/';
                     $config['allowed_types'] = 'gif|jpeg|jpg|png';
                     $config['max_size'] = 0;
-                    $config['max_width'] = 5900;
-                    $config['max_height'] = 5900;
+                    $config['max_width'] = 0;
+                    $config['max_height'] = 0;
 
                     $new_name = time(); //str_replace(" ", "_", $this->input->post('proveedor_nombre'));
                     $config['file_name'] = $new_name; //.$extencion;
@@ -509,7 +510,7 @@ class Usuario extends CI_Controller
                         redirect('usuario');
                     }
                 }
-            } 
+            //} 
     }
 
     public function hay_email2($email_field)

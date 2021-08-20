@@ -28,11 +28,8 @@
                         <label for="tipousuario_id" class="control-label">Tipo</label>
                         <div class="form-group">
                             <select name="tipousuario_id" id="tipousuario_id" class="form-control">
-                                <!--<option value="">seleccionar tipo de usuario</option>-->
+                                <option value="1">ADMINISTRADOR</option>
                                 <?php
-                                if($usuario['tipousuario_id'] == 1){
-                                    echo "ADMINISTRADOR";
-                                }
                                 /*foreach($all_tipo_usuario as $tipo_usuario)
                                 {
                                     $selected = ($tipo_usuario['tipousuario_id'] == $usuario['tipousuario_id']) ? ' selected="selected"' : "";
