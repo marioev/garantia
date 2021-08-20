@@ -71,7 +71,7 @@ class Registro_model extends CI_Model
     
     function get_detalle_serie($serie){
         $producto = $this->db->query(
-            "SELECT r.*, p.producto_foto,p.`producto_nombre`
+            "SELECT r.*, p.producto_foto,p.`producto_nombre`,p.producto_marca, p.producto_caracteristicas
             from registro as r
             left join producto as p on r.`producto_id` = p.`producto_id`
             where r.`registro_serie` = '$serie'
