@@ -35,7 +35,7 @@ function buscarGarantia(){
         success:function(result){
             var resultado =  JSON.parse(result);
             var fecha_actual = document.getElementById('fecha_actual').value;
-            if(resultado != null){
+            if(resultado[0] != null){
                 html = "";
                 html += "<div class='row'>"
                 html +=    "<div class='col-md-12'>"
@@ -63,10 +63,10 @@ function buscarGarantia(){
                 html +=                "<div class='panel-footer "
                 if(fecha_actual >= resultado[0]['registro_fecha'] && fecha_actual <= resultado[0]['registro_vigencia']){
                     html+=                  "garantia-success'>"
-                    html +=                "SU GARANTIA ESTA VIGENTE"
+                    html +=                "LA GARANTIA ESTA VIGENTE"
                 }else{
                     html+=                  "garantia-danger'>"
-                    html +=                "SU GARANTIA YA NO ESTA VIGENTE"
+                    html +=                "LA GARANTIA YA NO ESTA VIGENTE"
                 }
                 html +=                "</div>"
                 html +=            "</div>"
