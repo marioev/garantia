@@ -53,4 +53,20 @@ class Registro_model extends CI_Model
     {
         return $this->db->delete('registro',array('registro_id'=>$registro_id));
     }
+    
+    /* *****Buscar todos los productos****** */
+    function get_registrosproducto($producto_id)
+    {
+        $sql = "SELECT
+                    r.*, p.producto_nombre, u.usuario_nombre
+                    FROM
+                        registro r
+                        left join producto p on r.producto_id = p.producto_id
+                        left join usuario u on r.usuario_id = u.usuario_id
+                   order by p.producto_id desc";
+        $registro = $this->db->query($sql)->result_array();
+        return $registro;
+
+    }
+    
 }

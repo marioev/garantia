@@ -32,27 +32,7 @@ class Producto extends CI_Controller{
     function index()
     {
         //if($this->acceso(102)) {
-            //$data['rol'] = $this->session_data['rol'];
-            $data['tipousuario_id'] = $this->session_data['tipousuario_id'];
-            //$data['a'] = $a;
-            //$this->load->model('Categoria_producto_model');
-            //$data['all_categoria'] = $this->Categoria_producto_model->get_all_categoria_de_producto();
-        /*
-        $this->load->model('Moneda_model');
-        //$data['moneda'] = $this->Moneda_model->get_moneda(2); //Obtener moneda extragera
-        $data['lamoneda'] = $this->Moneda_model->getalls_monedasact_asc();
-        $this->load->model('Estado_model');
-        $data['all_estado'] = $this->Estado_model->get_all_estado_activo_inactivo();
-        
-        $this->load->model('Empresa_model');
-        $data['empresa'] = $this->Empresa_model->get_all_empresa();
-        
-        $this->load->model('Parametro_model');
-        $data['parametro'] = $this->Parametro_model->get_parametro(1);
-        
-        $this->load->model('Clasificador_model');
-        $data['all_clasificador'] = $this->Clasificador_model->get_all_clasificadores();
-        */
+        $data['tipousuario_id'] = $this->session_data['tipousuario_id'];
         $data['page_title'] = "Producto";
         $data['_view'] = 'producto/index';
         $this->load->view('layouts/main',$data);
@@ -71,32 +51,14 @@ class Producto extends CI_Controller{
         $this->form_validation->set_rules('producto_nombre','Producto Nombre','required');
         if($this->form_validation->run())     
         {
-                $producto_nombre = $this->input->post('producto_nombre');
-                $resultado = $this->Producto_model->es_producto_registrado($producto_nombre);
-                if($resultado > 0){
-                    /*$this->load->model('Categoria_producto_model');
-                    $data['all_categoria_producto'] = $this->Categoria_producto_model->get_all_categoria_producto();
-
-                    $this->load->model('Presentacion_model');
-                    $data['all_presentacion'] = $this->Presentacion_model->get_all_presentacion();
-
-                    $this->load->model('Moneda_model');
-                    $data['all_moneda'] = $this->Moneda_model->get_all_moneda();
-                    $data['unidades'] = $this->Producto_model->get_all_unidad();
-                    
-                    $this->load->model('Destino_producto_model');
-                    $data['all_destino_producto'] = $this->Destino_producto_model->get_all_destino_producto();
-                    
-                    $this->load->model('Parametro_model');
-                    $data['parametro'] = $this->Parametro_model->get_parametro(1);
-                    */
-                    $data['resultado'] = 1;
-                    
-                    $data['page_title'] = "Producto";
-                    $data['_view'] = 'producto/add';
-                    $this->load->view('layouts/main',$data);
-                }else{
-                    //$producto_catalogo = $this->input->post('producto_catalogo');
+            $producto_nombre = $this->input->post('producto_nombre');
+            $resultado = $this->Producto_model->es_producto_registrado($producto_nombre);
+            if($resultado > 0){
+                $data['resultado'] = 1;
+                $data['page_title'] = "Producto";
+                $data['_view'] = 'producto/add';
+                $this->load->view('layouts/main',$data);
+            }else{
             /* *********************INICIO imagen***************************** */
             $foto="";
             if (!empty($_FILES['producto_foto']['name'])){
@@ -215,22 +177,6 @@ class Producto extends CI_Controller{
             redirect('producto');
         }
         }else{
-            /*$this->load->model('Categoria_producto_model');
-            $data['all_categoria_producto'] = $this->Categoria_producto_model->get_all_categoria_producto();
-
-            $this->load->model('Presentacion_model');
-            $data['all_presentacion'] = $this->Presentacion_model->get_all_presentacion();
-
-            $this->load->model('Moneda_model');
-            $data['all_moneda'] = $this->Moneda_model->get_all_moneda();
-            $data['unidades'] = $this->Producto_model->get_all_unidad();
-            
-            $this->load->model('Destino_producto_model');
-            $data['all_destino_producto'] = $this->Destino_producto_model->get_all_destino_producto();
-            
-            $this->load->model('Parametro_model');
-            $data['parametro'] = $this->Parametro_model->get_parametro(1);
-            */
             $data['resultado'] = 0;
             $data['page_title'] = "Producto";
             $data['_view'] = 'producto/add';
@@ -419,33 +365,6 @@ class Producto extends CI_Controller{
           
     }
     
-    function remove($producto_id)
-    {
-        if($this->acceso(108)) {
-        $producto = $this->Producto_model->get_producto($producto_id);
-
-        // check if the producto exists before trying to delete it
-        if(isset($producto[0]['producto_id']))
-        {
-            $res = $this->Producto_model->producto_es_usado($producto_id);
-            
-            if($res == 0){
-                $this->Producto_model->delete_producto($producto_id);
-                
-                $this->load->model('Inventario_model');
-                $this->Inventario_model->delete_inventario($producto_id);
-                redirect('producto/index');
-            }else{
-                $a = 1;
-                redirect('producto/index/'.$a);
-            }
-        }
-        else
-            show_error('El producto que intentas borrar no existe.');
-        }
-           
-    }
-    
     /*
     * buscar productos
     */
@@ -520,277 +439,5 @@ class Producto extends CI_Controller{
         //}
             
     }
-    /* buscar productos por Categoria */
-    function buscarproductos_porcategoria()
-    {
-        if($this->acceso(104)) {
-                
-                $usuario_id = $this->session_data['usuario_id'];
-
-        if ($this->input->is_ajax_request()) {
-            
-            $parametro = $this->input->post('parametro');   
-            
-            $datos = $this->Producto_model->get_busqueda_productos_porcategoria($parametro);
-            //$datos = $this->Inventario_model->get_inventario_bloque();
-            echo json_encode($datos);
-        }
-        else
-        {                 
-            show_404();
-        }
-        }
-          
-    }
-    /*
-     * Listado de productos con existencia minima
-     */
-    function existenciaminima()
-    {
-        if($this->acceso(105)) {
-        $usuario_id = $this->session_data['usuario_id'];  
-        $data = array(
-            'page_title' => 'Admin >> Mi Cuenta'
-        );
-        
-        $this->load->model('Categoria_producto_model');
-        $data['all_categoria'] = $this->Categoria_producto_model->get_all_categoria_de_producto();
-
-        $this->load->model('Estado_model');
-        $data['all_estado'] = $this->Estado_model->get_all_estado_activo_inactivo();
-        
-        $this->load->model('Empresa_model');
-        $data['empresa'] = $this->Empresa_model->get_all_empresa();
-        
-        $this->load->model('Parametro_model');
-        $data['parametro'] = $this->Parametro_model->get_parametro(1);
-        
-        $data['page_title'] = "Producto";
-        $data['_view'] = 'producto/existenciaminima';
-        $this->load->view('layouts/main',$data);
-    }
-}
     
-    /*
-    * buscar productos con existencia minima
-    */
-    function buscarproductosexistmin()
-    {
-        if($this->acceso(105)) {
-            if ($this->input->is_ajax_request()) {
-                $parametro       = $this->input->post('parametro');
-                $categoriaestado = $this->input->post('categoriaestado'); 
-                $datos = $this->Producto_model->get_busqueda_producto_existmin($parametro, $categoriaestado);
-                echo json_encode($datos);
-            }
-            else
-            {                 
-                show_404();
-            }
-        }
-    }
-    
-    /* * añadir unidad en producto */
-    function aniadirunidad()
-    {
-        if($this->acceso(103)) {
-            if ($this->input->is_ajax_request()) {
-                $this->load->model('Unidad_model');
-                $parametro = $this->input->post('parametro');
-                if($parametro != ""){
-                    $params = array(
-                    'unidad_nombre' => $parametro,
-
-                    );
-                    $zona_id = $this->Unidad_model->add_unidad($params);
-                    $datos = $this->Unidad_model->get_unidad($zona_id);
-                    echo json_encode($datos);
-                }else{
-                    echo json_encode(null);
-                }
-            }
-            else
-            {                 
-                show_404();
-            }
-        }
-    }
-    /* lista de subcategoriuas asigandos a un producto */
-    function productoasignado($producto_id)
-    {
-        //if($this->acceso(102)) {
-        $nombre_producto = $this->Producto_model->get_esteproducto($producto_id);
-        $data['producto_nombre'] = $nombre_producto['producto_nombre'];
-        $data['all_productosubcategoria'] = $this->Producto_model->get_all_productosubcategorias($producto_id);
-        $data['page_title'] = "Producto-Subcategorias";
-        $data['_view'] = 'producto/productoasignado';
-        $this->load->view('layouts/main',$data);
-        //}
-    }
-    
-    /* * añadir unidad en producto */
-    function aniadircategoria()
-    {
-        if($this->acceso(103)) {
-            if ($this->input->is_ajax_request()) {
-                $this->load->model('Categoria_producto_model');
-                $parametro = $this->input->post('parametro');
-                if($parametro != ""){
-                    $params = array(
-                    'categoria_nombre' => $parametro,
-
-                    );
-                    $categoria_id = $this->Categoria_producto_model->add_categoria_producto($params);
-                    $datos = $this->Categoria_producto_model->get_categoria_producto($categoria_id);
-                    echo json_encode($datos);
-                }else{
-                    echo json_encode(null);
-                }
-            }
-            else
-            {                 
-                show_404();
-            }
-        }
-    }
-    
-    function buscar_insumos()
-    {
-        $parametro = $this->input->post('parametro');
-        $res = $this->Producto_model->buscar_allproducto($parametro);
-        
-        echo json_encode($res);
-    }
-    
-    /* funcion que busca y devuelve un insumo(producto) */
-    function seleccionar_insumo()
-    {
-        $producto_id = $this->input->post('producto_id');
-        $res = $this->Producto_model->get_this_insumo($producto_id);
-
-        echo json_encode($res);
-    }
-    /* * obtener subcategoria de la categoria de un producto */
-    function obtener_subcategoria()
-    {
-        if($this->acceso(103)) {
-            if ($this->input->is_ajax_request()) {
-                $this->load->model('Subcategoria_producto_model');
-                $categoria_id = $this->input->post('categoria_id');
-                if($categoria_id != ""){
-                    $datos = $this->Subcategoria_producto_model->get_all_subcategoria_de_categoria($categoria_id);
-                    echo json_encode($datos);
-                }else{
-                    echo json_encode(null);
-                }
-            }
-            else
-            {                 
-                show_404();
-            }
-        }
-    }
-    /* registrar subcategoria */
-    function aniadirsubcategoria()
-    {
-        if($this->acceso(103)) {
-            if ($this->input->is_ajax_request()) {
-                $this->load->model('Subcategoria_producto_model');
-                $parametro = $this->input->post('parametro');
-                $categoria_id = $this->input->post('categoria_id');
-                if($parametro != ""){
-                    $params = array(
-                    'subcategoria_nombre' => $parametro,
-                    'categoria_id' => $categoria_id,
-
-                    );
-                    $subcategoria_id = $this->Subcategoria_producto_model->add_subcategoria_producto($params);
-                    $datos = $this->Subcategoria_producto_model->get_subcategoria_producto($subcategoria_id);
-                    echo json_encode($datos);
-                }else{
-                    echo json_encode(null);
-                }
-            }
-            else
-            {                 
-                show_404();
-            }
-        }
-    }
-    /*
-    * buscar clasificadores de un producto
-    */
-    function buscar_clasificador()
-    {
-        if($this->acceso(102)) {
-            if ($this->input->is_ajax_request()) {
-                $producto_id = $this->input->post('producto_id');
-                $datos = $this->Producto_model->get_busqueda_clasificadores($producto_id);
-                echo json_encode($datos);
-            }
-            else{
-                show_404();
-            }
-        }
-    }
-    /*
-    * buscar clasificadores de un producto
-    */
-    function quitar_clasificador()
-    {
-        if($this->acceso(102)) {
-            if ($this->input->is_ajax_request()) {
-                $clasificadorprod_id = $this->input->post('clasificadorprod_id');
-                $this->Producto_model->delete_clasificador_producto($clasificadorprod_id);
-                echo json_encode("ok");
-            }
-            else{
-                show_404();
-            }
-        }
-    }
-    /*
-    * buscar clasificadores de un producto
-    */
-    function agregar_clasificador()
-    {
-        if($this->acceso(102)) {
-            if ($this->input->is_ajax_request()) {
-                $clasificador_id = $this->input->post('clasificador_id');
-                $miproducto_id   = $this->input->post('miproducto_id');
-                $resultado = $this->Producto_model->get_clasificador_producto($clasificador_id, $miproducto_id);
-                if(isset($resultado)){
-                    echo json_encode("no");
-                }else{
-                    $params = array(
-                        'clasificador_id' => $clasificador_id,
-                        'producto_id' => $miproducto_id,
-                    );
-                    //$this->load->model('Clasificador_model');
-                    $this->Producto_model->add_clasificador_producto($params);
-                    echo json_encode("ok");
-                }
-            }
-            else{
-                show_404();
-            }
-        }
-    }
-    /*
-    * buscar productos y agruparlos por catalogos
-    */
-    function buscarproductos_agruparporcatalogo()
-    {
-        if($this->acceso(102)){
-            $usuario_id = $this->session_data['usuario_id'];
-            if ($this->input->is_ajax_request()){
-                $parametro       = $this->input->post('parametro');   
-                $categoriaestado = $this->input->post('categoriaestado');   
-                $datos = $this->Producto_model->get_busqueda_producto_parametrocategoria($parametro, $categoriaestado);
-                echo json_encode($datos);
-            }else{
-                show_404();
-            }
-        }
-    }
 }

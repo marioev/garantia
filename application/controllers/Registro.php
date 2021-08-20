@@ -5,112 +5,73 @@
  */
  
 class Registro extends CI_Controller{
+    var $session_data;
     function __construct()
     {
         parent::__construct();
         $this->load->model('Registro_model');
-    } 
-
+        $this->load->model('Producto_model');
+       if ($this->session->userdata('logged_in')) {
+            $this->session_data = $this->session->userdata('logged_in');
+        }else {
+            redirect('', 'refresh');
+        }
+    }
+    
     /*
      * Listing of registro
      */
     function index()
     {
-        $data['registro'] = $this->Registro_model->get_all_registro();
+        $data['all_producto'] = $this->Producto_model->get_busqueda_productos_all();
         
         $data['_view'] = 'registro/index';
         $this->load->view('layouts/main',$data);
     }
 
     /*
-     * Adding a new registro
-     */
-    function add()
-    {   
-        if(isset($_POST) && count($_POST) > 0)     
-        {   
-            $params = array(
-				'producto_id' => $this->input->post('producto_id'),
-				'usuario_id' => $this->input->post('usuario_id'),
-				'registro_serie' => $this->input->post('registro_serie'),
-				'cliente_aniversario' => $this->input->post('cliente_aniversario'),
-				'registro_fecha' => $this->input->post('registro_fecha'),
-				'registro_hora' => $this->input->post('registro_hora'),
-				'registro_vigencia' => $this->input->post('registro_vigencia'),
-            );
-            
-            $registro_id = $this->Registro_model->add_registro($params);
-            redirect('registro/index');
-        }
-        else
-        {
-			$this->load->model('Producto_model');
-			$data['all_producto'] = $this->Producto_model->get_all_producto();
-
-			$this->load->model('Usuario_model');
-			$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
-            
-            $data['_view'] = 'registro/add';
-            $this->load->view('layouts/main',$data);
-        }
-    }  
-
-    /*
-     * Editing a registro
-     */
-    function edit($registro_id)
-    {   
-        // check if the registro exists before trying to edit it
-        $data['registro'] = $this->Registro_model->get_registro($registro_id);
-        
-        if(isset($data['registro']['registro_id']))
-        {
-            if(isset($_POST) && count($_POST) > 0)     
-            {   
-                $params = array(
-					'producto_id' => $this->input->post('producto_id'),
-					'usuario_id' => $this->input->post('usuario_id'),
-					'registro_serie' => $this->input->post('registro_serie'),
-					'cliente_aniversario' => $this->input->post('cliente_aniversario'),
-					'registro_fecha' => $this->input->post('registro_fecha'),
-					'registro_hora' => $this->input->post('registro_hora'),
-					'registro_vigencia' => $this->input->post('registro_vigencia'),
-                );
-
-                $this->Registro_model->update_registro($registro_id,$params);            
-                redirect('registro/index');
-            }
-            else
-            {
-				$this->load->model('Producto_model');
-				$data['all_producto'] = $this->Producto_model->get_all_producto();
-
-				$this->load->model('Usuario_model');
-				$data['all_usuario'] = $this->Usuario_model->get_all_usuario();
-
-                $data['_view'] = 'registro/edit';
-                $this->load->view('layouts/main',$data);
-            }
-        }
-        else
-            show_error('The registro you are trying to edit does not exist.');
-    } 
-
-    /*
-     * Deleting registro
-     */
-    function remove($registro_id)
+    * registra la serie de un producto
+    */
+    function registrar_serie()
     {
-        $registro = $this->Registro_model->get_registro($registro_id);
-
-        // check if the registro exists before trying to delete it
-        if(isset($registro['registro_id']))
-        {
-            $this->Registro_model->delete_registro($registro_id);
-            redirect('registro/index');
+        //if($this->acceso(104)) {
+        $usuario_id = $this->session_data['usuario_id'];
+        if ($this->input->is_ajax_request()) {
+            $registro_fecha = date('Y-m-d');
+            $registro_hora = date('H:i:s');
+            $params = array(
+                'producto_id' => $this->input->post('producto_id'),
+                'usuario_id' => $usuario_id,
+                'registro_serie' => $this->input->post('serie'),
+                'registro_fecha' => $registro_fecha,
+                'registro_hora' => $registro_hora,
+                'registro_vigencia' => $this->input->post('registro_vigencia'),
+            );
+            $registro_id = $this->Registro_model->add_registro($params);
+            
+            echo json_encode("ok");
+        }else{
+            show_404();
         }
-        else
-            show_error('The registro you are trying to delete does not exist.');
+        //}
+            
+    }
+    
+    /*
+    * mostras 
+    */
+    function buscar_registroproductos()
+    {
+        //if($this->acceso(104)) {
+        if($this->input->is_ajax_request()){
+            $producto_id = $this->input->post('producto_id');
+            $datos = $this->Registro_model->get_registrosproducto($producto_id);
+            echo json_encode($datos);
+        }else{
+            show_404();
+        }
+        //}
+            
     }
     
 }
