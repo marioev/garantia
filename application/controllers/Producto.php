@@ -155,8 +155,8 @@ class Producto extends CI_Controller{
                 */
                 'producto_ultimocosto' => $this->input->post('producto_costo'),
                 //'producto_cantidadminima' => $this->input->post('producto_cantidadminima'),
-                /*'producto_caracteristicas' => $this->input->post('producto_caracteristicas'),
-                'producto_envase' => $this->input->post('producto_envase'),
+                'producto_caracteristicas' => $this->input->post('producto_caracteristicas'),
+                /*'producto_envase' => $this->input->post('producto_envase'),
                 'producto_nombreenvase' => $this->input->post('producto_nombreenvase'),
                 'producto_costoenvase' => $this->input->post('producto_costoenvase'),
                 'producto_precioenvase' => $this->input->post('producto_precioenvase'),
@@ -313,8 +313,8 @@ class Producto extends CI_Controller{
                 */
                 'producto_ultimocosto' => $this->input->post('producto_costo'),
                 //'producto_cantidadminima' => $this->input->post('producto_cantidadminima'),
-                /*'producto_caracteristicas' => $this->input->post('producto_caracteristicas'),
-                'producto_envase' => $this->input->post('producto_envase'),
+                'producto_caracteristicas' => $this->input->post('producto_caracteristicas'),
+                /*'producto_envase' => $this->input->post('producto_envase'),
                 'producto_nombreenvase' => $this->input->post('producto_nombreenvase'),
                 'producto_costoenvase' => $this->input->post('producto_costoenvase'),
                 'producto_precioenvase' => $this->input->post('producto_precioenvase'),
