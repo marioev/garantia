@@ -53,7 +53,6 @@ class Registro_model extends CI_Model
     {
         return $this->db->delete('registro',array('registro_id'=>$registro_id));
     }
-<<<<<<< HEAD
     
     /* *****Buscar todos los productos****** */
     function get_registrosproducto($producto_id)
@@ -70,8 +69,6 @@ class Registro_model extends CI_Model
 
     }
     
-=======
-
     function get_detalle_serie($serie){
         $producto = $this->db->query(
             "SELECT r.*, p.producto_foto,p.`producto_nombre`
@@ -81,5 +78,4 @@ class Registro_model extends CI_Model
             ")->result_array();
         return $producto;
     }
->>>>>>> master
 }
