@@ -46,7 +46,7 @@ function buscarGarantia(){
                 }
                 html +=             "<div class='panel-heading'>"
                 html +=                  "<h3 class='text-center'>"
-                html +=                         ""+resultado[0]['producto_nombre']+" - "+resultado[0]['producto_marca']+" br>"
+                html +=                         ""+resultado[0]['producto_nombre']+" - "+resultado[0]['producto_marca']+" <br>"
                 html +=                         "<span style='color: #706F6F; font-size: 15pt;'>Serie N° "+resultado[0]['registro_serie']+"</span>"
                 html +=                     "</h3>"
                 html +=                 "</div>"

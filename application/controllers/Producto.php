@@ -439,5 +439,4 @@ class Producto extends CI_Controller{
         //}
             
     }
-
 }
