@@ -63,7 +63,9 @@ class Registro_model extends CI_Model
                         registro r
                         left join producto p on r.producto_id = p.producto_id
                         left join usuario u on r.usuario_id = u.usuario_id
-                   order by p.producto_id desc";
+                    WHERE
+                        r.producto_id = $producto_id
+                   order by r.registro_id desc";
         $registro = $this->db->query($sql)->result_array();
         return $registro;
 

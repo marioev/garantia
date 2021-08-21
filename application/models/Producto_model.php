@@ -47,7 +47,7 @@ class Producto_model extends CI_Model
         return $this->db->update('producto',$params);
     }
     /*
-     * Verifica si ya hay un prpducto registrado con un nombre
+     * Verifica si ya hay un producto registrado con un nombre
      */
     function es_producto_registrado($producto_nombre)
     {
@@ -108,5 +108,19 @@ class Producto_model extends CI_Model
         return $producto;
 
     }
-    
+     /* *****Buscar todos los productos activos****** */
+    function get_productos_activos()
+    {
+        $sql = "SELECT
+                    p.*, p.producto_id as miprod_id
+                    FROM
+                        producto p
+                    WHERE
+                        p.estado_id = 1
+                order by p.producto_nombre asc";
+
+        $producto = $this->db->query($sql)->result_array();
+        return $producto;
+
+    }
 }

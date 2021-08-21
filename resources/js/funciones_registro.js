@@ -96,7 +96,7 @@ function tablaresultadosregistro(producto_id){
                         html += "<td>"+registros[i]["registro_vigencia"]+"</td>";
                         html += "<td>"+registros[i]["usuario_nombre"]+"</td>";
                         html += "<td>";
-                        html += "<a href='"+base_url+"registro/edit/"+registros[i]["registro_id"]+"' target='_blank' class='btn btn-info btn-xs' title='Modificar Información'><span class='fa fa-pencil'></span></a>";
+                        html += "<a href='"+base_url+"registro/edit/"+registros[i]["registro_id"]+"' class='btn btn-info btn-xs' title='Modificar Información'><span class='fa fa-pencil'></span></a>";
                         html += "</td>";
                         html += "</tr>";
                    }

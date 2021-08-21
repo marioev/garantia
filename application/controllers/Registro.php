@@ -23,7 +23,7 @@ class Registro extends CI_Controller{
      */
     function index()
     {
-        $data['all_producto'] = $this->Producto_model->get_busqueda_productos_all();
+        $data['all_producto'] = $this->Producto_model->get_productos_activos();
         
         $data['_view'] = 'registro/index';
         $this->load->view('layouts/main',$data);
@@ -72,6 +72,43 @@ class Registro extends CI_Controller{
         }
         //}
             
+    }
+    /*
+     * Editing a registro
+     */
+    function edit($registro_id)
+    {   
+        // check if the registro exists before trying to edit it
+        $data['registro'] = $this->Registro_model->get_registro($registro_id);
+        if(isset($data['registro']['registro_id']))
+        {
+            if(isset($_POST) && count($_POST) > 0)
+            {
+                $params = array(
+                    'producto_id' => $this->input->post('producto_id'),
+                    'usuario_id' => $this->input->post('usuario_id'),
+                    'registro_serie' => $this->input->post('registro_serie'),
+                    'registro_fecha' => $this->input->post('registro_fecha'),
+                    'registro_hora' => $this->input->post('registro_hora'),
+                    'registro_vigencia' => $this->input->post('registro_vigencia'),
+                );
+                $this->Registro_model->update_registro($registro_id,$params);            
+                redirect('registro/index');
+            }
+            else
+            {
+                $this->load->model('Producto_model');
+                $data['all_producto'] = $this->Producto_model->get_productos_activos();
+                
+                $this->load->model('Usuario_model');
+                $data['all_usuario'] = $this->Usuario_model->get_all_usuario_activo();
+
+                $data['_view'] = 'registro/edit';
+                $this->load->view('layouts/main',$data);
+            }
+        }
+        else
+            show_error('The registro you are trying to edit does not exist.');
     }
     
 }
