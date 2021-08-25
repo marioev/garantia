@@ -80,4 +80,16 @@ class Registro_model extends CI_Model
             ")->result_array();
         return $producto;
     }
+    /*
+     * Get registro by registro_id
+     */
+    function get_registro_dadoserie($serie)
+    {
+        $producto = $this->db->query(
+            "SELECT r.registro_id
+            from registro as r
+            where r.`registro_serie` = '$serie'
+            ")->row_array();
+        return $producto;
+    }
 }

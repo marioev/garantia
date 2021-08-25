@@ -35,23 +35,30 @@ class Registro extends CI_Controller{
     function registrar_serie()
     {
         //if($this->acceso(104)) {
-        $usuario_id = $this->session_data['usuario_id'];
-        if ($this->input->is_ajax_request()) {
-            $registro_fecha = date('Y-m-d');
-            $registro_hora = date('H:i:s');
-            $params = array(
-                'producto_id' => $this->input->post('producto_id'),
-                'usuario_id' => $usuario_id,
-                'registro_serie' => $this->input->post('serie'),
-                'registro_fecha' => $registro_fecha,
-                'registro_hora' => $registro_hora,
-                'registro_vigencia' => $this->input->post('registro_vigencia'),
-            );
-            $registro_id = $this->Registro_model->add_registro($params);
-            
-            echo json_encode("ok");
+        $serie = $this->input->post('serie');
+        $resultado = $this->Registro_model->get_registro_dadoserie($serie);
+        if($resultado > 0){
+            echo json_encode("duplicado");
         }else{
-            show_404();
+            $usuario_id = $this->session_data['usuario_id'];
+            if ($this->input->is_ajax_request()) {
+                $registro_fecha = date('Y-m-d');
+                $registro_hora = date('H:i:s');
+                $params = array(
+                    'producto_id' => $this->input->post('producto_id'),
+                    'usuario_id' => $usuario_id,
+                    'registro_serie' => $serie,
+                    //'registro_serie' => $this->input->post('serie'),
+                    'registro_fecha' => $registro_fecha,
+                    'registro_hora' => $registro_hora,
+                    'registro_vigencia' => $this->input->post('registro_vigencia'),
+                );
+                $registro_id = $this->Registro_model->add_registro($params);
+
+                echo json_encode("ok");
+            }else{
+                show_404();
+            }
         }
         //}
             
@@ -109,6 +116,27 @@ class Registro extends CI_Controller{
         }
         else
             show_error('The registro you are trying to edit does not exist.');
+    }
+    /*
+     * Deleting registro
+     */
+    function eliminar()
+    {
+        //if($this->acceso(104)) {
+        if($this->input->is_ajax_request()){
+            $registro_id = $this->input->post('registro_id');
+            if(isset($registro_id))
+            {
+                $this->Registro_model->delete_registro($registro_id);
+                echo json_encode("ok");
+            }else{
+                echo json_encode(null);
+            }
+        }else{
+            show_404();
+        }
+        //}
+            
     }
     
 }
